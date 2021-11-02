@@ -10,6 +10,7 @@ public:
     ~Texture();
     SDL_Texture *loadTexture(const char *filePath);
     void render(int x, int y, float scale, SDL_Rect *srcRect);
+    void setColor(Uint8, Uint8 green, Uint8 blue);
     int getWidth();
     int getHeight();
     SDL_Texture *getTexture();

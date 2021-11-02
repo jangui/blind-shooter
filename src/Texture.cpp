@@ -31,8 +31,6 @@ SDL_Texture *Texture::loadTexture(const char *filePath) {
         fprintf(stderr, "Error loading surface '%s': %s\n", filePath, IMG_GetError());
         return nullptr;
     }
-    // handle transparent images
-    SDL_SetColorKey(loadedSurface, SDL_TRUE, SDL_MapRGB(loadedSurface->format, 0, 0xFF, 0xFF));
 
     // get dimensions
     width = loadedSurface->w;
@@ -50,6 +48,10 @@ SDL_Texture *Texture::loadTexture(const char *filePath) {
     return loadedTexture;
 }
 
+void Texture::setColor(Uint8 red, Uint8 green, Uint8 blue) {
+    SDL_SetTextureColorMod(tex, red, green, blue);
+}
+
 int Texture::getWidth() {
     return width;
 }
@@ -62,25 +64,19 @@ SDL_Texture *Texture::getTexture() {
     return tex;
 }
 
-/*
-SDL_Surface *loadSurface(std::string filePath, SDL_Surface *surface) {
-    // load surface
-    SDL_Surface *loadedSurface = IMG_Load(filePath.c_str());
-    if (loadedSurface == nullptr) {
-        fprintf(stderr, "Error loading surface '%s': %s\n", filePath.c_str(), IMG_GetError());
-        return nullptr;
-    }
 
-    // convert loaded surface to optimized surface
+
+
+
+
+
+/*
     SDL_Surface *optimizedSurface = nullptr;
     optimizedSurface = SDL_ConvertSurface(loadedSurface, surface->format, 0);
     if (optimizedSurface == nullptr) {
         fprintf(stderr, "Error converting optimized surface '%s': %s\n", filePath.c_str(), SDL_GetError());
         return nullptr;
     }
-
-    SDL_FreeSurface(loadedSurface);
-    return optimizedSurface;
 }
  */
 
