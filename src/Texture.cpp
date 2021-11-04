@@ -1,5 +1,4 @@
 #include "Texture.h"
-#include "Game.h"
 
 Texture::Texture(const char *filePath, SDL_Renderer *renderer) : renderer(renderer) {
     tex = loadTexture(filePath);

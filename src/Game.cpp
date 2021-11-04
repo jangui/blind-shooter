@@ -35,7 +35,6 @@ void Game::update() {
 }
 
 bool Game::init() {
-    //bool initGame(SDL_Window **window, SDL_Surface **screenSurface, SDL_Renderer **renderer) {
     // initialize SDL Video
     if (SDL_Init(SDL_INIT_VIDEO) < 0) {
         fprintf(stderr, "Error initializing SDL: %s\n", SDL_GetError());
@@ -43,7 +42,7 @@ bool Game::init() {
     }
 
     // create window
-    window = SDL_CreateWindow(s->title, SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, s->screenWidth, s->screenHeight, SDL_WINDOW_SHOWN);
+    window = SDL_CreateWindow("Blind Shooter", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, s->screenWidth, s->screenHeight, SDL_WINDOW_SHOWN);
     if (window == nullptr) {
         fprintf(stderr, "Error creating window: %s\n", SDL_GetError());
         return false;
@@ -64,29 +63,28 @@ bool Game::init() {
         return false;
     }
 
-    /* TODO
-    // create surface
-    *screenSurface = SDL_GetWindowSurface(*window);
-    if (*screenSurface == nullptr) {
-        fprintf(stderr, "Error creating surface: %s\n", SDL_GetError());
-        return false;
-    }
-     */
-
     // init textures
-    // TODO init textures and store in a vector
+    // TODO: make this own function, and fix hardcoded values with settings values (sprite sheet path, rows, etc)
+    //       refractor rest of game.init()
+    //       specific entities should know the
+    spriteSheet = new Texture("../assets/sprite-sheet.png", renderer);
+    int xOffset, yOffset;
+    int spriteWidth = spriteSheet->getWidth() / 4; // TODO spriteSheet->numRows
+    int spriteHeight = spriteSheet->getHeight() / 4;
+    SDL_Rect *currClip;
+    for (int i = 0; i < 16; i++) {
+        xOffset = (i % 4) * spriteSheet->getWidth() / 4;
+        yOffset = ((int)i/4 ) * spriteSheet->getHeight() / 4;
+        currClip = new SDL_Rect();
+        currClip->x = xOffset;
+        currClip->y = yOffset;
+        currClip->w = spriteWidth;
+        currClip->h = spriteHeight;
+        spriteClips.push_back(currClip);
+    }
 
     // init entities
-    spriteSheet = new Texture("../assets/sprite-sheet.png", renderer);
-    playerClip.w = spriteSheet->getWidth() / 4;
-    playerClip.h = spriteSheet->getHeight() / 4;
-    playerClip.x = 0;
-    playerClip.x = spriteSheet->getWidth() / 4;
-    playerClip.y = spriteSheet->getHeight() / 4;
-    playerClip.y = 0;
-    entity = new Player(200, 100, spriteSheet, &playerClip);
-    //red = new Texture("../assets/red.png", renderer);
-    //entity = new Player(200, 100, red, NULL);
+    entity = new Player(200, 100, spriteSheet, spriteClips[1]);
 
     isRunning = true;
     return true;
@@ -129,14 +127,7 @@ bool Game::running() {
     return isRunning;
 }
 
-/*
-SDL_Renderer *Game::getRenderer() {
-    return renderer;
-}
-*/
-
 void Game::clean() {
-    //SDL_FreeSurface(surface);
     SDL_DestroyWindow(window);
     SDL_DestroyRenderer(renderer);
     IMG_Quit();

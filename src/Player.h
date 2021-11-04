@@ -16,5 +16,4 @@ private:
     int speed;
 };
 
-
 #endif // Player_H

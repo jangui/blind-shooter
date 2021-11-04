@@ -21,5 +21,4 @@ private:
     SDL_Renderer *renderer;
 };
 
-
 #endif // Texture_H
