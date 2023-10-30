@@ -1,44 +1,31 @@
 
 #include "Game.h"
 
-Game::Game() : renderer(nullptr), window(nullptr), isRunning(false) {
-    name = "Blind Shooter";
-    width = 1200;
-    height = 900;
+Game::Game() :
+    renderer(nullptr), gameWindow(nullptr), map(nullptr), isRunning(false), name("Blind Shooter"),
+    virtualWidth(3200), virtualHeight(2000)
+    {
+    screenWidth = 1440;
+    screenHeight = 900;
+    }
+
+Game::~Game() {
+    delete map; map = nullptr;
+    delete renderer; renderer = nullptr;
+    delete gameWindow; gameWindow = nullptr;
 }
 
-Game::~Game() {}
-
 bool Game::init() {
-    // Initialize SDL
-    if (SDL_Init(SDL_INIT_VIDEO) < 0) {
-        fprintf(stderr, "Could not initialize SDL: %s\n", SDL_GetError());
-        return false;
-    }
+    // init game window
+    gameWindow = new GameWindow(name, screenWidth, screenHeight);
+    gameWindow->init();
 
-    // Create a window
-    window = SDL_CreateWindow(
-            name.c_str(),            // Window title
-            SDL_WINDOWPOS_UNDEFINED,  // Initial x position
-            SDL_WINDOWPOS_UNDEFINED,  // Initial y position
-            width,                      // Width, in pixels
-            height,                      // Height, in pixels
-            SDL_WINDOW_SHOWN          // Flags
-    );
-    if (window == nullptr) {
-        fprintf(stderr, "Could not create window: %s\n", SDL_GetError());
-        SDL_Quit();
-        return false;
-    }
+    // init renderer
+    SDL_Renderer *r = gameWindow->getRenderer();
+    renderer = new Renderer(r, virtualWidth, virtualHeight, screenWidth, screenHeight);
 
-    // Create a renderer
-    renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
-    if (renderer == nullptr) {
-        fprintf(stderr, "Could not create renderer: %s\n", SDL_GetError());
-        SDL_DestroyWindow(window);
-        SDL_Quit();
-        return false;
-    }
+    // init map
+    map = new Map(virtualWidth, virtualHeight, renderer);
 
     isRunning = true;
     return true;
@@ -66,17 +53,8 @@ void Game::update() {
 }
 
 void Game::render() {
-    // Clear screen
-    SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255); // TODO set color
-    SDL_RenderClear(renderer);
+    map->render();
 
     // Update screen
-    SDL_RenderPresent(renderer);
-}
-
-void Game::clean() {
-    // Free resources
-    SDL_DestroyRenderer(renderer);
-    SDL_DestroyWindow(window);
-    SDL_Quit();
+    renderer->render();
 }

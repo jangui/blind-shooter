@@ -2,7 +2,7 @@
 
 int main() {
     Game game = Game();
-    game.init();
+    if (!game.init()) { fprintf(stderr, "Game failed to initialize"); return 1; }
 
     while (game.running()) {
         game.handleEvents();
@@ -10,6 +10,5 @@ int main() {
         game.render();
     }
 
-    game.clean();
     return 0;
 }
