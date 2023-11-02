@@ -1,10 +1,6 @@
-//
-// Created by Jaime on 10/30/23.
-//
 
 #include "Renderer.h"
 #include "SDL.h"
-#include <iostream>
 
 Renderer::Renderer(SDL_Renderer *renderer, int virtualWidth, int virtualHeight, int screenWidth, int screenHeight) :
     r(renderer), virtualWidth(virtualWidth), virtualHeight(virtualHeight),

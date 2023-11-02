@@ -17,4 +17,11 @@ struct MapSettings {
     int borderSpacer;
 };
 
+enum Direction {
+    UP,     // 0
+    DOWN,   // 1
+    LEFT,   // 2
+    RIGHT   // 3
+};
+
 #endif //BLIND_SHOOTER_DATATYPES_H

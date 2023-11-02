@@ -7,7 +7,12 @@ Map::Map(int width, int height, MapSettings settings, Renderer *renderer) :
     initObstacles();
 }
 
-Map::~Map() {}
+Map::~Map() {
+    for (auto entity : mapEntities) {
+        if (entity) {delete entity; entity = nullptr;}
+        // TODO deconstructors
+    }
+}
 
 void Map::initObstacles() {
     // create border
