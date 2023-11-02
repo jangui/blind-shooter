@@ -9,4 +9,12 @@ struct Color {
     int r, g, b, a;
 };
 
+struct MapSettings {
+    Color bgColor;
+    Color borderColor;
+    int borderWidth;
+    int borderHeight;
+    int borderSpacer;
+};
+
 #endif //BLIND_SHOOTER_DATATYPES_H

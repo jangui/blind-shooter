@@ -20,13 +20,12 @@ class Game {
     int screenWidth;
     int screenHeight;
 
-
 public:
     Game();
     ~Game();
     void handleEvents();
     void update();
-    void render();
+    void render() const;
     bool init();
     bool running() const;
 };

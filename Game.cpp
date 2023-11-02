@@ -10,9 +10,9 @@ Game::Game() :
     }
 
 Game::~Game() {
-    delete map; map = nullptr;
-    delete renderer; renderer = nullptr;
-    delete gameWindow; gameWindow = nullptr;
+    if (map) { delete map; map = nullptr; }
+    if (renderer) { delete renderer; renderer = nullptr; }
+    if (gameWindow) { delete gameWindow; gameWindow = nullptr; }
 }
 
 bool Game::init() {
@@ -25,7 +25,13 @@ bool Game::init() {
     renderer = new Renderer(r, virtualWidth, virtualHeight, screenWidth, screenHeight);
 
     // init map
-    map = new Map(virtualWidth, virtualHeight, renderer);
+    Color backgroundColor = {40,0,0,255};
+    Color borderColor = {0, 0, 40, 255};
+    int borderWidth = 20;
+    int borderHeight = 20;
+    int borderSpacer = 20;
+    MapSettings mapSettings = {backgroundColor, borderColor, borderWidth, borderHeight, borderSpacer};
+    map = new Map(virtualWidth, virtualHeight, mapSettings, renderer);
 
     isRunning = true;
     return true;
@@ -52,7 +58,7 @@ void Game::update() {
 
 }
 
-void Game::render() {
+void Game::render() const {
     map->render();
 
     // Update screen

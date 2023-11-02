@@ -4,21 +4,23 @@
 #include <SDL.h>
 #include "DataTypes.h"
 #include "Renderer.h"
+#include "Obstacle.h"
+#include <vector>
+#include <map>
 
 class Map {
     int width;
     int height;
     Renderer *renderer;
-    int borderWidth;
-    int borderHeight;
-    Color bgColor;
-    Color borderColor;
+    MapSettings settings;
+    std::vector<MapEntity*> mapEntities;
+    std::map<Coordinates, MapEntity*> mapCoordinates;
 
 public:
-    Map(int width, int height, Renderer *renderer);
+    Map(int width, int height, MapSettings settings, Renderer *renderer);
     ~Map();
+    void initObstacles();
     void render() const;
-    void renderBorder() const;
     void update();
 };
 
