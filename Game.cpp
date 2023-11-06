@@ -56,27 +56,20 @@ void Game::handleEvents() {
         if (e.type == SDL_QUIT) {
             isRunning = false;
         }
-        // Check for keypress events
-        else if (e.type == SDL_KEYDOWN) {
-            // Check which key was pressed
-            switch (e.key.keysym.sym) {
-                case SDLK_SPACE:
-                    player->shoot();
-                    break;
-                case SDLK_UP:
-                    player->move(UP);
-                    break;
-                case SDLK_DOWN:
-                    player->move(DOWN);
-                    break;
-                case SDLK_LEFT:
-                    player->move(LEFT);
-                    break;
-                case SDLK_RIGHT:
-                    player->move(RIGHT);
-                    break;
-            }
-        }
+    }
+
+    const Uint8* state = SDL_GetKeyboardState(NULL);
+    if (state[SDL_SCANCODE_UP]) {
+        player->move(UP);
+    }
+    if (state[SDL_SCANCODE_DOWN]) {
+        player->move(DOWN);
+    }
+    if (state[SDL_SCANCODE_LEFT]) {
+        player->move(LEFT);
+    }
+    if (state[SDL_SCANCODE_RIGHT]) {
+        player->move(RIGHT);
     }
 
 }
@@ -98,4 +91,17 @@ void Game::render() const {
 
     // Update screen
     renderer->render();
+}
+
+void Game::calcDeltaTime() {
+    currentFrameTime = SDL_GetTicks();
+    deltaTime = currentFrameTime - lastFrameTime;
+    lastFrameTime = currentFrameTime;
+}
+
+void Game::capFPS() {
+    Uint32 frameDuration = SDL_GetTicks() - currentFrameTime;
+    if ( (1000 / fps) > frameDuration ) {
+        SDL_Delay( (1000/fps) - frameDuration);
+    }
 }

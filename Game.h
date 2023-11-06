@@ -23,6 +23,10 @@ class Game {
     int virtualHeight = 2000;
     int screenWidth;
     int screenHeight;
+    int fps = 60;
+    Uint32 lastFrameTime;
+    Uint32 currentFrameTime;
+    float deltaTime;
 
 public:
     Game();
@@ -32,6 +36,8 @@ public:
     void render() const;
     bool init();
     bool running() const;
+    void calcDeltaTime();
+    void capFPS();
 };
 
 #endif //BLIND_SHOOTER_GAME_H

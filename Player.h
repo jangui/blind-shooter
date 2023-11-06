@@ -10,7 +10,7 @@ class Player : public Entity {
    int y;
    float vx;
    float vy;
-   float speed = 10;
+   float speed = 3;
    Color color;
    Renderer *renderer;
 

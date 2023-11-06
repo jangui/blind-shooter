@@ -18,10 +18,10 @@ struct MapSettings {
 };
 
 enum Direction {
-    UP,     // 0
-    DOWN,   // 1
-    LEFT,   // 2
-    RIGHT   // 3
+    UP,
+    DOWN,
+    LEFT,
+    RIGHT
 };
 
 #endif //BLIND_SHOOTER_DATATYPES_H
